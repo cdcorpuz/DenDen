@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6d28d9">
+
+  <title>DenDen Music Generator</title>
+
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f8f5ff;
+      color: #261447;
+    }
+
+    header {
+      background: #6d28d9;
+      color: white;
+      padding: 24px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      margin: 7px 0 0;
+      opacity: .9;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 3px 14px rgba(0,0,0,.08);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+      gap: 12px;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 11px;
+      border-radius: 9px;
+      border: 1px solid #d8b4fe;
+      font-size: 14px;
+    }
+
+    button {
+      background: #6d28d9;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #5b21b6;
+    }
+
+    .secondary {
+      background: #ede9fe;
+      color: #5b21b6;
+    }
+
+    .stats {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .song {
+      padding: 11px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .song-title {
+      font-weight: bold;
+    }
+
+    .song-info {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 3px;
+    }
+
+    .act {
+      margin-top: 22px;
+      padding: 9px;
+      background: #ede9fe;
+      border-radius: 8px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    #status {
+      text-align: center;
+      padding: 30px;
+    }
+
+    @media(max-width:600px) {
+      header h1 { font-size: 23px; }
+      .container { padding: 10px; }
+      .card { padding: 14px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🎵 DenDen Music Generator</h1>
+  <p id="libraryCount">Loading music library...</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+
+    <h2>🎲 Song Generator</h2>
+
+    <div class="grid">
+
+      <div>
+        <label>NUMBER OF SONGS</label>
+        <input id="number" type="number" value="30" min="1" max="100">
+      </div>
+
+      <div>
+        <label>CATEGORY</label>
+        <select id="category">
+          <option value="">All Categories</option>
+          <option value="FIL">Filipino / OPM</option>
+          <option value="NON-FIL">English / International</option>
+        </select>
+      </div>
+
+      <div>
+        <label>ARTIST</label>
+        <select id="artist">
+          <option value="">All Artists</option>
+        </select>
+      </div>
+
+      <div>
+        <label>RECOGNITION</label>
+        <select id="tier">
+          <option value="">All Tiers</option>
+        </select>
+      </div>
+
+      <div>
+        <label>PERFORMANCE TAG</label>
+        <select id="tag">
+          <option value="">All Tags</option>
+        </select>
+      </div>
+
+      <div>
+        <label>MINIMUM SPEED</label>
+        <select id="minSpeed"></select>
+      </div>
+
+      <div>
+        <label>MAXIMUM SPEED</label>
+        <select id="maxSpeed"></select>
+      </div>
+
+    </div>
+
+    <div style="margin-top:15px;">
+      <label>
+        <input id="uniqueArtist" type="checkbox"
+        style="width:auto;margin-right:6px;">
+        Avoid repeating the same artist
+      </label>
+
+      <label>
+        <input id="threeActs" type="checkbox" checked
+        style="width:auto;margin-right:6px;">
+        Split lineup into 3 Acts
+      </label>
+    </div>
+
+    <button onclick="generate()" style="margin-top:15px;">
+      🎲 GENERATE SONGS
+    </button>
+
+    <div class="stats" id="poolCount"></div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>🔎 Search Library</h2>
+
+    <input
+      id="search"
+      placeholder="Search song or artist..."
+      oninput="searchLibrary()"
+    >
+
+    <div id="searchResults"></div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>🎤 Generated Lineup</h2>
+
+    <div class="actions">
+      <button class="secondary" onclick="generate()">↻ Regenerate</button>
+      <button class="secondary" onclick="copyList()">📋 Copy List</button>
+    </div>
+
+    <div id="results"></div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+let songs = [];
+let currentLineup = [];
+
+
+/* LOAD MUSIC LIBRARY */
+
+fetch("songs.json")
+  .then(response => {
+    if (!response.ok) throw new Error("songs.json not found");
+    return response.json();
+  })
+  .then(data => {
+
+    songs = data;
+
+    document.getElementById("libraryCount").textContent =
+      songs.length.toLocaleString() + " songs in the DenDen Music Library";
+
+    buildFilters();
+    updatePool();
+
+  })
+  .catch(error => {
+
+    document.getElementById("libraryCount").textContent =
+      "Music library could not be loaded.";
+
+    console.error(error);
+
+  });
+
+
+/* BUILD FILTERS */
+
+function buildFilters() {
+
+  const artists =
+    [...new Set(songs.map(s => s.artist).filter(Boolean))]
+    .sort((a,b) => a.localeCompare(b));
+
+  const tiers =
+    [...new Set(songs.map(s => s.tier).filter(Boolean))];
+
+  const tags = new Set();
+
+  songs.forEach(song => {
+
+    if (!song.tag) return;
+
+    song.tag.split("+").forEach(t => {
+      tags.add(t.trim());
+    });
+
+  });
+
+
+  const artistSelect = document.getElementById("artist");
+
+  artists.forEach(a => {
+
+    const option = document.createElement("option");
+
+    option.value = a;
+    option.textContent = a;
+
+    artistSelect.appendChild(option);
+
+  });
+
+
+  const tierSelect = document.getElementById("tier");
+
+  tiers.forEach(t => {
+
+    const option = document.createElement("option");
+
+    option.value = t;
+    option.textContent = t;
+
+    tierSelect.appendChild(option);
+
+  });
+
+
+  const tagSelect = document.getElementById("tag");
+
+  [...tags].sort().forEach(t => {
+
+    const option = document.createElement("option");
+
+    option.value = t;
+    option.textContent = t;
+
+    tagSelect.appendChild(option);
+
+  });
+
+
+  const min = document.getElementById("minSpeed");
+  const max = document.getElementById("maxSpeed");
+
+  for (let i = 0; i <= 10; i++) {
+
+    min.innerHTML += `<option value="${i}">${i}</option>`;
+    max.innerHTML += `<option value="${i}">${i}</option>`;
+
+  }
+
+  min.value = 0;
+  max.value = 10;
+
+
+  document.querySelectorAll("select").forEach(el => {
+    el.addEventListener("change", updatePool);
+  });
+
+}
+
+
+/* FILTER */
+
+function getFilteredSongs() {
+
+  const category =
+    document.getElementById("category").value;
+
+  const artist =
+    document.getElementById("artist").value;
+
+  const tier =
+    document.getElementById("tier").value;
+
+  const tag =
+    document.getElementById("tag").value;
+
+  const min =
+    Number(document.getElementById("minSpeed").value);
+
+  const max =
+    Number(document.getElementById("maxSpeed").value);
+
+
+  return songs.filter(song => {
+
+    if (category && song.category !== category)
+      return false;
+
+    if (artist && song.artist !== artist)
+      return false;
+
+    if (tier && song.tier !== tier)
+      return false;
+
+    if (
+      tag &&
+      !(song.tag || "")
+        .split("+")
+        .map(x => x.trim())
+        .includes(tag)
+    )
+      return false;
+
+    if (
+      song.speed !== null &&
+      song.speed !== undefined &&
+      (song.speed < min || song.speed > max)
+    )
+      return false;
+
+    return true;
+
+  });
+
+}
+
+
+/* POOL SIZE */
+
+function updatePool() {
+
+  const pool = getFilteredSongs();
+
+  document.getElementById("poolCount").textContent =
+    "Available pool: " +
+    pool.length.toLocaleString() +
+    " songs";
+
+}
+
+
+/* SHUFFLE */
+
+function shuffle(array) {
+
+  const a = [...array];
+
+  for (let i = a.length - 1; i > 0; i--) {
+
+    const j =
+      Math.floor(Math.random() * (i + 1));
+
+    [a[i], a[j]] =
+      [a[j], a[i]];
+
+  }
+
+  return a;
+
+}
+
+
+/* GENERATE */
+
+function generate() {
+
+  const wanted =
+    Number(document.getElementById("number").value);
+
+  const uniqueArtist =
+    document.getElementById("uniqueArtist").checked;
+
+  let pool =
+    shuffle(getFilteredSongs());
+
+  let chosen = [];
+
+  let usedArtists = new Set();
+
+
+  for (const song of pool) {
+
+    if (
+      uniqueArtist &&
+      usedArtists.has(song.artist)
+    )
+      continue;
+
+    chosen.push(song);
+
+    usedArtists.add(song.artist);
+
+    if (chosen.length >= wanted)
+      break;
+
+  }
+
+
+  currentLineup = chosen;
+
+  displayLineup();
+
+}
+
+
+/* DISPLAY */
+
+function displayLineup() {
+
+  const results =
+    document.getElementById("results");
+
+  results.innerHTML = "";
+
+  if (!currentLineup.length) {
+
+    results.innerHTML =
+      "<p>No songs match your filters.</p>";
+
+    return;
+
+  }
+
+
+  const threeActs =
+    document.getElementById("threeActs").checked;
+
+  let actSize =
+    Math.ceil(currentLineup.length / 3);
+
+
+  currentLineup.forEach((song,index) => {
+
+    if (
+      threeActs &&
+      index % actSize === 0
+    ) {
+
+      const act =
+        Math.floor(index / actSize) + 1;
+
+      results.innerHTML +=
+        `<div class="act">ACT ${act}</div>`;
+
+    }
+
+
+    results.innerHTML += `
+
+      <div class="song">
+
+        <div class="song-title">
+          ${index + 1}. ${song.song}
+        </div>
+
+        <div class="song-info">
+
+          ${song.artist || ""}
+
+          ${song.year ? " · " + song.year : ""}
+
+          ${song.speed !== null &&
+            song.speed !== undefined
+            ? " · Speed " + song.speed
+            : ""}
+
+          ${song.tier
+            ? " · " + song.tier
+            : ""}
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+
+/* SEARCH */
+
+function searchLibrary() {
+
+  const q =
+    document.getElementById("search")
+    .value
+    .toLowerCase()
+    .trim();
+
+  const output =
+    document.getElementById("searchResults");
+
+  output.innerHTML = "";
+
+  if (!q)
+    return;
+
+
+  const matches =
+    songs.filter(song =>
+
+      (song.song || "")
+      .toLowerCase()
+      .includes(q)
+
+      ||
+
+      (song.artist || "")
+      .toLowerCase()
+      .includes(q)
+
+    ).slice(0,100);
+
+
+  matches.forEach(song => {
+
+    output.innerHTML += `
+
+      <div class="song">
+
+        <div class="song-title">
+          ${song.song}
+        </div>
+
+        <div class="song-info">
+
+          ${song.artist || ""}
+
+          ${song.year
+            ? " · " + song.year
+            : ""}
+
+          ${song.tag
+            ? " · " + song.tag
+            : ""}
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+
+/* COPY */
+
+function copyList() {
+
+  if (!currentLineup.length)
+    return;
+
+
+  const text =
+    currentLineup
+    .map(
+      (song,index) =>
+      `${index + 1}. ${song.song} — ${song.artist}`
+    )
+    .join("\n");
+
+
+  navigator.clipboard.writeText(text);
+
+  alert("Lineup copied!");
+
+}
+
+
+/* PWA */
+
+if ("serviceWorker" in navigator) {
+
+  window.addEventListener("load", () => {
+
+    navigator.serviceWorker
+      .register("sw.js");
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
