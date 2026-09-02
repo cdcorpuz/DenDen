@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,201 +10,284 @@
   <link rel="manifest" href="manifest.json">
 
   <style>
-
     * {
       box-sizing: border-box;
+    }
+
+    :root {
+      --purple: #6d28d9;
+      --purple-dark: #4c1d95;
+      --purple-soft: #ede9fe;
+      --ink: #24143f;
+      --muted: #6b7280;
+      --page: #f7f4ff;
+      --card: #ffffff;
+      --border: #ddd6fe;
     }
 
     body {
       margin: 0;
       min-height: 100vh;
       font-family: Arial, Helvetica, sans-serif;
-      color: #261447;
-
-      /* BACKGROUND PHOTO */
-      background:
-        linear-gradient(
-          rgba(248,245,255,0.84),
-          rgba(248,245,255,0.84)
-        ),
-        url("background.jpg");
-
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
+      color: var(--ink);
+      background: var(--page);
     }
 
+    /* =========================
+       HERO PHOTO
+    ========================= */
 
-    /* HEADER */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 360px;
+      overflow: hidden;
+      background: #201038;
+    }
 
-    header {
-      background: rgba(91,33,182,0.90);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
 
-      color: white;
-      padding: 24px 16px;
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.03) 10%,
+        rgba(24,8,48,0.10) 55%,
+        rgba(24,8,48,0.78) 100%
+      );
+
+      pointer-events: none;
+    }
+
+    .hero-copy {
+      position: absolute;
+      z-index: 2;
+
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      padding: 35px 18px 28px;
+
       text-align: center;
-
-      box-shadow: 0 3px 15px rgba(0,0,0,.15);
+      color: white;
     }
 
-    header h1 {
+    .hero-copy h1 {
       margin: 0;
-      font-size: 28px;
+
+      font-size: clamp(
+        28px,
+        5vw,
+        46px
+      );
+
+      letter-spacing: -0.5px;
+
+      text-shadow:
+        0 2px 15px
+        rgba(0,0,0,0.35);
     }
 
-    header p {
-      margin: 7px 0 0;
-      opacity: .92;
+    .hero-copy p {
+      margin: 8px 0 0;
       font-size: 14px;
+      opacity: 0.94;
     }
 
-
-    /* MAIN */
+    /* =========================
+       MAIN PAGE
+    ========================= */
 
     .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 20px;
+      max-width: 1080px;
+
+      margin: -18px auto 0;
+
+      padding:
+        0 18px 28px;
+
+      position: relative;
+      z-index: 3;
     }
 
-
-    /* CARDS */
+    /* =========================
+       CARDS
+    ========================= */
 
     .card {
-      background: rgba(255,255,255,0.90);
+      background: var(--card);
 
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      border:
+        1px solid
+        rgba(221,214,254,0.9);
 
-      border: 1px solid rgba(255,255,255,.65);
-
-      border-radius: 18px;
+      border-radius: 20px;
 
       padding: 20px;
+
       margin-bottom: 18px;
 
       box-shadow:
-        0 5px 20px rgba(38,20,71,.10);
+        0 12px 35px
+        rgba(76,29,149,0.09);
     }
 
     .card h2 {
-      margin-top: 0;
+      margin: 0 0 16px;
+      font-size: 20px;
     }
 
-
-    /* GENERATOR GRID */
+    /* =========================
+       GENERATOR GRID
+    ========================= */
 
     .grid {
       display: grid;
 
       grid-template-columns:
-        repeat(auto-fit,minmax(180px,1fr));
+        repeat(
+          auto-fit,
+          minmax(180px,1fr)
+        );
 
       gap: 12px;
     }
 
-
-    /* FORM ELEMENTS */
+    /* =========================
+       FORM
+    ========================= */
 
     label {
-      font-size: 12px;
-      font-weight: bold;
       display: block;
-      margin-bottom: 5px;
+
+      margin-bottom: 6px;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      color: #4b3a67;
     }
 
     input,
     select,
     button {
-
       width: 100%;
 
-      padding: 11px;
-
-      border-radius: 10px;
-
-      border: 1px solid #d8b4fe;
+      border-radius: 12px;
 
       font-size: 14px;
     }
 
     input,
     select {
-      background: rgba(255,255,255,.96);
-      color: #261447;
+      padding: 11px 12px;
+
+      border:
+        1px solid
+        var(--border);
+
+      background: white;
+
+      color: var(--ink);
     }
 
     input:focus,
     select:focus {
+      outline:
+        2px solid
+        #c4b5fd;
 
-      outline: 2px solid #a78bfa;
-
-      border-color: #7c3aed;
+      border-color:
+        var(--purple);
     }
 
-
-    /* BUTTONS */
+    /* =========================
+       BUTTONS
+    ========================= */
 
     button {
+      border: 0;
 
-      background: #6d28d9;
+      padding: 12px 14px;
+
+      background:
+        var(--purple);
 
       color: white;
 
-      border: none;
-
-      font-weight: bold;
+      font-weight: 700;
 
       cursor: pointer;
 
-      transition: .15s;
+      transition:
+        transform .12s ease,
+        background .12s ease;
     }
 
     button:hover {
-      background: #5b21b6;
+      background:
+        var(--purple-dark);
     }
 
     button:active {
-      transform: scale(.99);
+      transform:
+        scale(.99);
     }
 
     .secondary {
+      background:
+        var(--purple-soft);
 
-      background: #ede9fe;
-
-      color: #5b21b6;
+      color:
+        var(--purple-dark);
     }
 
     .secondary:hover {
-
-      background: #ddd6fe;
-
+      background:
+        #ddd6fe;
     }
 
+    .generate-btn {
+      margin-top: 16px;
 
-    /* CHECKBOXES */
+      font-size: 15px;
+
+      padding:
+        13px 16px;
+    }
+
+    /* =========================
+       CHECKBOXES
+    ========================= */
 
     .checkbox-area {
-
-      margin-top: 15px;
-
       display: flex;
-
       flex-wrap: wrap;
 
-      gap: 15px;
+      gap: 14px;
+
+      margin:
+        15px 0 0;
     }
 
     .checkbox-area label {
-
-      display: flex;
+      display: inline-flex;
 
       align-items: center;
 
-      gap: 6px;
+      gap: 7px;
+
+      margin: 0;
 
       font-size: 13px;
 
@@ -213,105 +295,105 @@
     }
 
     .checkbox-area input {
-
       width: auto;
-
       margin: 0;
     }
 
-
-    /* STATS */
+    /* =========================
+       STATS
+    ========================= */
 
     .stats {
-
-      margin-top: 12px;
-
-      font-size: 13px;
-
-      color: #6b7280;
+      margin-top: 10px;
 
       text-align: center;
+
+      color:
+        var(--muted);
+
+      font-size: 13px;
     }
 
-
-    /* SONG ROW */
+    /* =========================
+       SONGS
+    ========================= */
 
     .song {
-
-      padding: 11px 4px;
+      padding:
+        12px 2px;
 
       border-bottom:
-        1px solid rgba(109,40,217,.10);
+        1px solid
+        #eee9fb;
     }
 
     .song:last-child {
-      border-bottom: none;
+      border-bottom: 0;
     }
 
     .song-title {
-
-      font-weight: bold;
+      font-weight: 700;
 
       line-height: 1.35;
     }
 
     .song-info {
+      margin-top: 3px;
 
       font-size: 12px;
 
-      color: #6b7280;
+      line-height: 1.45;
 
-      margin-top: 3px;
-
-      line-height: 1.4;
+      color:
+        var(--muted);
     }
 
-
-    /* ACT HEADER */
+    /* =========================
+       ACTS
+    ========================= */
 
     .act {
-
       margin-top: 22px;
 
       padding: 10px;
 
+      text-align: center;
+
+      font-weight: 800;
+
+      color:
+        var(--purple-dark);
+
+      border-radius: 11px;
+
       background:
         linear-gradient(
           135deg,
-          rgba(237,233,254,.96),
-          rgba(221,214,254,.96)
+          #f3e8ff,
+          #ede9fe
         );
-
-      border-radius: 10px;
-
-      font-weight: bold;
-
-      text-align: center;
-
-      color: #5b21b6;
     }
 
-
-    /* ACTION BUTTONS */
+    /* =========================
+       ACTION BUTTONS
+    ========================= */
 
     .actions {
-
       display: grid;
 
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns:
+        1fr 1fr;
 
       gap: 10px;
 
-      margin-top: 15px;
-
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
-
-    /* SEARCH RESULTS */
+    /* =========================
+       SEARCH
+    ========================= */
 
     #searchResults {
-
       max-height: 600px;
 
       overflow-y: auto;
@@ -319,64 +401,67 @@
       margin-top: 10px;
     }
 
+    /* =========================
+       FOOTER
+    ========================= */
 
-    /* MOBILE */
+    .footer {
+      text-align: center;
+
+      padding:
+        2px 10px 24px;
+
+      color:
+        #8a8199;
+
+      font-size: 12px;
+    }
+
+    /* =========================
+       IPHONE / MOBILE
+    ========================= */
 
     @media (max-width: 600px) {
 
-      body {
-
-        /*
-          Fixed backgrounds can behave oddly on iPhone Safari.
-          Scroll is smoother and more reliable.
-        */
-
-        background-attachment: scroll;
+      .hero {
+        height: 290px;
       }
 
-      header {
-
-        padding: 20px 12px;
-      }
-
-      header h1 {
-
-        font-size: 23px;
+      .hero-copy {
+        padding:
+          28px 14px 24px;
       }
 
       .container {
+        margin-top: -12px;
 
-        padding: 10px;
+        padding:
+          0 10px 20px;
       }
 
       .card {
-
         padding: 15px;
 
-        border-radius: 15px;
+        border-radius: 16px;
       }
 
       .grid {
-
         grid-template-columns:
           repeat(2,1fr);
       }
-
-      .actions {
-
-        grid-template-columns: 1fr 1fr;
-      }
-
     }
 
-
-    @media (max-width: 400px) {
+    @media (max-width: 430px) {
 
       .grid {
-
-        grid-template-columns: 1fr;
+        grid-template-columns:
+          1fr;
       }
 
+      .actions {
+        grid-template-columns:
+          1fr 1fr;
+      }
     }
 
   </style>
@@ -385,248 +470,287 @@
 
 <body>
 
-
-<header>
-
-  <h1>🎵 DenDen Music Generator</h1>
-
-  <p id="libraryCount">
-    Loading music library...
-  </p>
-
-</header>
-
-
-
-<div class="container">
-
-
-  <!-- GENERATOR -->
-
-  <div class="card">
-
-    <h2>🎲 Song Generator</h2>
-
-
-    <div class="grid">
-
-
-      <div>
-
-        <label>NUMBER OF SONGS</label>
-
-        <input
-          id="number"
-          type="number"
-          value="30"
-          min="1"
-          max="100"
-        >
-
-      </div>
-
-
-
-      <div>
-
-        <label>CATEGORY</label>
-
-        <select id="category">
-
-          <option value="">
-            All Categories
-          </option>
-
-          <option value="FIL">
-            Filipino / OPM
-          </option>
-
-          <option value="NON-FIL">
-            English / International
-          </option>
-
-        </select>
-
-      </div>
-
-
-
-      <div>
-
-        <label>ARTIST</label>
-
-        <select id="artist">
-
-          <option value="">
-            All Artists
-          </option>
-
-        </select>
-
-      </div>
-
-
-
-      <div>
-
-        <label>RECOGNITION</label>
-
-        <select id="tier">
-
-          <option value="">
-            All Tiers
-          </option>
-
-        </select>
-
-      </div>
-
-
-
-      <div>
-
-        <label>PERFORMANCE TAG</label>
-
-        <select id="tag">
-
-          <option value="">
-            All Tags
-          </option>
-
-        </select>
-
-      </div>
-
-
-
-      <div>
-
-        <label>MINIMUM SPEED</label>
-
-        <select id="minSpeed"></select>
-
-      </div>
-
-
-
-      <div>
-
-        <label>MAXIMUM SPEED</label>
-
-        <select id="maxSpeed"></select>
-
-      </div>
-
-
-    </div>
-
-
-
-    <div class="checkbox-area">
-
-      <label>
-
-        <input
-          id="uniqueArtist"
-          type="checkbox"
-        >
-
-        Avoid repeating the same artist
-
-      </label>
-
-
-      <label>
-
-        <input
-          id="threeActs"
-          type="checkbox"
-          checked
-        >
-
-        Split lineup into 3 Acts
-
-      </label>
-
-    </div>
-
-
-
-    <button
-      onclick="generate()"
-      style="margin-top:15px;"
+  <!-- =====================
+       HERO PHOTO
+  ====================== -->
+
+  <section class="hero">
+
+    <img
+      src="background.jpg"
+      alt="DenDen Music"
     >
 
-      🎲 GENERATE SONGS
+    <div class="hero-copy">
 
-    </button>
+      <h1>
+        🎵 DenDen Music Generator
+      </h1>
 
+      <p id="libraryCount">
+        Loading music library...
+      </p>
 
-    <div
-      class="stats"
-      id="poolCount">
     </div>
 
-
-  </div>
-
+  </section>
 
 
-  <!-- SEARCH -->
+  <!-- =====================
+       MAIN CONTENT
+  ====================== -->
 
-  <div class="card">
-
-    <h2>🔎 Search Library</h2>
-
-    <input
-      id="search"
-      placeholder="Search song or artist..."
-      oninput="searchLibrary()"
-    >
-
-    <div id="searchResults"></div>
-
-  </div>
+  <main class="container">
 
 
+    <!-- GENERATOR -->
 
-  <!-- LINEUP -->
+    <section class="card">
 
-  <div class="card">
+      <h2>
+        🎲 Song Generator
+      </h2>
 
-    <h2>🎤 Generated Lineup</h2>
+
+      <div class="grid">
 
 
-    <div class="actions">
+        <div>
+
+          <label>
+            NUMBER OF SONGS
+          </label>
+
+          <input
+            id="number"
+            type="number"
+            value="30"
+            min="1"
+            max="100"
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>
+            CATEGORY
+          </label>
+
+          <select id="category">
+
+            <option value="">
+              All Categories
+            </option>
+
+            <option value="FIL">
+              Filipino / OPM
+            </option>
+
+            <option value="NON-FIL">
+              English / International
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <label>
+            ARTIST
+          </label>
+
+          <select id="artist">
+
+            <option value="">
+              All Artists
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <label>
+            RECOGNITION
+          </label>
+
+          <select id="tier">
+
+            <option value="">
+              All Tiers
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <label>
+            PERFORMANCE TAG
+          </label>
+
+          <select id="tag">
+
+            <option value="">
+              All Tags
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <label>
+            MINIMUM SPEED
+          </label>
+
+          <select id="minSpeed">
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <label>
+            MAXIMUM SPEED
+          </label>
+
+          <select id="maxSpeed">
+          </select>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="checkbox-area">
+
+        <label>
+
+          <input
+            id="uniqueArtist"
+            type="checkbox"
+          >
+
+          Avoid repeating the same artist
+
+        </label>
+
+
+        <label>
+
+          <input
+            id="threeActs"
+            type="checkbox"
+            checked
+          >
+
+          Split lineup into 3 Acts
+
+        </label>
+
+      </div>
+
 
       <button
-        class="secondary"
+        class="generate-btn"
         onclick="generate()"
       >
 
-        ↻ Regenerate
+        🎲 GENERATE SONGS
 
       </button>
 
 
-      <button
-        class="secondary"
-        onclick="copyList()"
+      <div
+        class="stats"
+        id="poolCount">
+      </div>
+
+    </section>
+
+
+    <!-- SEARCH -->
+
+    <section class="card">
+
+      <h2>
+        🔎 Search Library
+      </h2>
+
+
+      <input
+        id="search"
+        placeholder="Search song or artist..."
+        oninput="searchLibrary()"
       >
 
-        📋 Copy List
 
-      </button>
+      <div id="searchResults">
+      </div>
 
-    </div>
+    </section>
 
 
-    <div id="results"></div>
+    <!-- GENERATED LINEUP -->
 
+    <section class="card">
+
+      <h2>
+        🎤 Generated Lineup
+      </h2>
+
+
+      <div class="actions">
+
+
+        <button
+          class="secondary"
+          onclick="generate()"
+        >
+
+          ↻ Regenerate
+
+        </button>
+
+
+        <button
+          class="secondary"
+          onclick="copyList()"
+        >
+
+          📋 Copy List
+
+        </button>
+
+
+      </div>
+
+
+      <div id="results">
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <div class="footer">
+    DenDen Music Library
   </div>
-
-
-</div>
 
 
 
@@ -640,7 +764,7 @@ let currentLineup = [];
 
 
 /* =========================
-   LOAD MUSIC LIBRARY
+   LOAD SONGS
 ========================= */
 
 
@@ -660,40 +784,45 @@ fetch("songs.json")
 
   })
 
-  .then(data => {
 
+  .then(data => {
 
     songs = data;
 
 
     document
-      .getElementById("libraryCount")
+      .getElementById(
+        "libraryCount"
+      )
       .textContent =
 
-      songs.length.toLocaleString()
+      songs.length
+        .toLocaleString()
 
-      + " songs in the DenDen Music Library";
+      +
+
+      " songs in the DenDen Music Library";
 
 
     buildFilters();
 
     updatePool();
 
-
   })
+
 
   .catch(error => {
 
-
     document
-      .getElementById("libraryCount")
+      .getElementById(
+        "libraryCount"
+      )
       .textContent =
 
       "Music library could not be loaded.";
 
 
     console.error(error);
-
 
   });
 
@@ -712,9 +841,7 @@ function buildFilters() {
     [...new Set(
 
       songs
-
         .map(song => song.artist)
-
         .filter(Boolean)
 
     )]
@@ -731,23 +858,23 @@ function buildFilters() {
     [...new Set(
 
       songs
-
         .map(song => song.tier)
-
         .filter(Boolean)
 
     )];
 
 
 
-  const tags = new Set();
+  const tags =
+    new Set();
 
 
 
   songs.forEach(song => {
 
 
-    if (!song.tag) return;
+    if (!song.tag)
+      return;
 
 
     song.tag
@@ -768,14 +895,23 @@ function buildFilters() {
 
 
   const artistSelect =
-    document.getElementById("artist");
+
+    document
+      .getElementById(
+        "artist"
+      );
+
 
 
   artists.forEach(artist => {
 
 
     const option =
-      document.createElement("option");
+
+      document
+        .createElement(
+          "option"
+        );
 
 
     option.value =
@@ -795,14 +931,23 @@ function buildFilters() {
 
 
   const tierSelect =
-    document.getElementById("tier");
+
+    document
+      .getElementById(
+        "tier"
+      );
+
 
 
   tiers.forEach(tier => {
 
 
     const option =
-      document.createElement("option");
+
+      document
+        .createElement(
+          "option"
+        );
 
 
     option.value =
@@ -822,7 +967,12 @@ function buildFilters() {
 
 
   const tagSelect =
-    document.getElementById("tag");
+
+    document
+      .getElementById(
+        "tag"
+      );
+
 
 
   [...tags]
@@ -833,7 +983,11 @@ function buildFilters() {
 
 
       const option =
-        document.createElement("option");
+
+        document
+          .createElement(
+            "option"
+          );
 
 
       option.value =
@@ -853,11 +1007,19 @@ function buildFilters() {
 
 
   const min =
-    document.getElementById("minSpeed");
+
+    document
+      .getElementById(
+        "minSpeed"
+      );
 
 
   const max =
-    document.getElementById("maxSpeed");
+
+    document
+      .getElementById(
+        "maxSpeed"
+      );
 
 
 
@@ -881,7 +1043,6 @@ function buildFilters() {
         ${i}
       </option>`;
 
-
   }
 
 
@@ -894,15 +1055,18 @@ function buildFilters() {
 
   document
 
-    .querySelectorAll("select")
+    .querySelectorAll(
+      "select"
+    )
 
     .forEach(element => {
 
 
-      element.addEventListener(
-        "change",
-        updatePool
-      );
+      element
+        .addEventListener(
+          "change",
+          updatePool
+        );
 
 
     });
@@ -921,42 +1085,64 @@ function getFilteredSongs() {
 
 
   const category =
+
     document
-      .getElementById("category")
+      .getElementById(
+        "category"
+      )
       .value;
 
 
   const artist =
+
     document
-      .getElementById("artist")
+      .getElementById(
+        "artist"
+      )
       .value;
 
 
   const tier =
+
     document
-      .getElementById("tier")
+      .getElementById(
+        "tier"
+      )
       .value;
 
 
   const tag =
+
     document
-      .getElementById("tag")
+      .getElementById(
+        "tag"
+      )
       .value;
 
 
   const min =
+
     Number(
+
       document
-        .getElementById("minSpeed")
+        .getElementById(
+          "minSpeed"
+        )
         .value
+
     );
 
 
   const max =
+
     Number(
+
       document
-        .getElementById("maxSpeed")
+        .getElementById(
+          "maxSpeed"
+        )
         .value
+
     );
 
 
@@ -968,6 +1154,7 @@ function getFilteredSongs() {
       category &&
       song.category !== category
     )
+
       return false;
 
 
@@ -976,6 +1163,7 @@ function getFilteredSongs() {
       artist &&
       song.artist !== artist
     )
+
       return false;
 
 
@@ -984,6 +1172,7 @@ function getFilteredSongs() {
       tier &&
       song.tier !== tier
     )
+
       return false;
 
 
@@ -996,7 +1185,9 @@ function getFilteredSongs() {
 
         .split("+")
 
-        .map(x => x.trim())
+        .map(
+          x => x.trim()
+        )
 
         .includes(tag)
 
@@ -1049,14 +1240,21 @@ function updatePool() {
 
 
   document
-    .getElementById("poolCount")
+    .getElementById(
+      "poolCount"
+    )
     .textContent =
 
     "Available pool: "
 
-    + pool.length.toLocaleString()
+    +
 
-    + " songs";
+    pool.length
+      .toLocaleString()
+
+    +
+
+    " songs";
 
 
 }
@@ -1092,23 +1290,24 @@ function shuffle(array) {
       Math.floor(
 
         Math.random()
-        * (i + 1)
+
+        *
+
+        (i + 1)
 
       );
 
 
     [
-
       copy[i],
-
       copy[j]
+    ]
 
-    ] = [
+    =
 
+    [
       copy[j],
-
       copy[i]
-
     ];
 
 
@@ -1123,7 +1322,7 @@ function shuffle(array) {
 
 
 /* =========================
-   GENERATE LINEUP
+   GENERATE
 ========================= */
 
 
@@ -1135,7 +1334,9 @@ function generate() {
     Number(
 
       document
-        .getElementById("number")
+        .getElementById(
+          "number"
+        )
         .value
 
     );
@@ -1144,12 +1345,14 @@ function generate() {
   const uniqueArtist =
 
     document
-      .getElementById("uniqueArtist")
+      .getElementById(
+        "uniqueArtist"
+      )
       .checked;
 
 
 
-  let pool =
+  const pool =
 
     shuffle(
 
@@ -1159,10 +1362,9 @@ function generate() {
 
 
 
-  let chosen = [];
+  const chosen = [];
 
-
-  let usedArtists =
+  const usedArtists =
     new Set();
 
 
@@ -1228,7 +1430,9 @@ function displayLineup() {
   const results =
 
     document
-      .getElementById("results");
+      .getElementById(
+        "results"
+      );
 
 
   results.innerHTML = "";
@@ -1247,7 +1451,6 @@ function displayLineup() {
 
     return;
 
-
   }
 
 
@@ -1255,7 +1458,9 @@ function displayLineup() {
   const threeActs =
 
     document
-      .getElementById("threeActs")
+      .getElementById(
+        "threeActs"
+      )
       .checked;
 
 
@@ -1264,7 +1469,9 @@ function displayLineup() {
 
     Math.ceil(
 
-      currentLineup.length / 3
+      currentLineup.length
+      /
+      3
 
     );
 
@@ -1290,9 +1497,13 @@ function displayLineup() {
 
             Math.floor(
 
-              index / actSize
+              index
+              /
+              actSize
 
-            ) + 1;
+            )
+
+            + 1;
 
 
           results.innerHTML +=
@@ -1300,7 +1511,6 @@ function displayLineup() {
             `<div class="act">
               ACT ${act}
             </div>`;
-
 
         }
 
@@ -1373,7 +1583,7 @@ function displayLineup() {
 
 
 /* =========================
-   SEARCH LIBRARY
+   SEARCH
 ========================= */
 
 
@@ -1383,9 +1593,13 @@ function searchLibrary() {
   const query =
 
     document
-      .getElementById("search")
+      .getElementById(
+        "search"
+      )
       .value
+
       .toLowerCase()
+
       .trim();
 
 
@@ -1393,7 +1607,9 @@ function searchLibrary() {
   const output =
 
     document
-      .getElementById("searchResults");
+      .getElementById(
+        "searchResults"
+      );
 
 
   output.innerHTML = "";
@@ -1426,18 +1642,23 @@ function searchLibrary() {
 
         return (
 
-          songName.includes(query)
+          songName
+            .includes(query)
 
           ||
 
-          artistName.includes(query)
+          artistName
+            .includes(query)
 
         );
 
 
       })
 
-      .slice(0,100);
+      .slice(
+        0,
+        100
+      );
 
 
 
@@ -1508,7 +1729,7 @@ function searchLibrary() {
 
 
 /* =========================
-   COPY LINEUP
+   COPY LIST
 ========================= */
 
 
@@ -1575,30 +1796,33 @@ if (
 ) {
 
 
-  window.addEventListener(
+  window
+    .addEventListener(
 
-    "load",
+      "load",
 
-    () => {
-
-
-      navigator
-        .serviceWorker
-        .register("sw.js")
-
-        .catch(error => {
-
-          console.log(
-            "Service worker:",
-            error
-          );
-
-        });
+      () => {
 
 
-    }
+        navigator
+          .serviceWorker
+          .register(
+            "sw.js"
+          )
 
-  );
+          .catch(error => {
+
+            console.log(
+              "Service worker:",
+              error
+            );
+
+          });
+
+
+      }
+
+    );
 
 
 }
@@ -1608,5 +1832,4 @@ if (
 
 
 </body>
-
 </html>
