@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,20 +11,44 @@
   <link rel="manifest" href="manifest.json">
 
   <style>
-    * { box-sizing: border-box; }
+
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f8f5ff;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
       color: #261447;
+
+      /* BACKGROUND PHOTO */
+      background:
+        linear-gradient(
+          rgba(248,245,255,0.84),
+          rgba(248,245,255,0.84)
+        ),
+        url("background.jpg");
+
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
     }
 
+
+    /* HEADER */
+
     header {
-      background: #6d28d9;
+      background: rgba(91,33,182,0.90);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+
       color: white;
-      padding: 24px;
+      padding: 24px 16px;
       text-align: center;
+
+      box-shadow: 0 3px 15px rgba(0,0,0,.15);
     }
 
     header h1 {
@@ -33,8 +58,12 @@
 
     header p {
       margin: 7px 0 0;
-      opacity: .9;
+      opacity: .92;
+      font-size: 14px;
     }
+
+
+    /* MAIN */
 
     .container {
       max-width: 1100px;
@@ -42,19 +71,44 @@
       padding: 20px;
     }
 
+
+    /* CARDS */
+
     .card {
-      background: white;
-      border-radius: 16px;
+      background: rgba(255,255,255,0.90);
+
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+
+      border: 1px solid rgba(255,255,255,.65);
+
+      border-radius: 18px;
+
       padding: 20px;
       margin-bottom: 18px;
-      box-shadow: 0 3px 14px rgba(0,0,0,.08);
+
+      box-shadow:
+        0 5px 20px rgba(38,20,71,.10);
     }
+
+    .card h2 {
+      margin-top: 0;
+    }
+
+
+    /* GENERATOR GRID */
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+
+      grid-template-columns:
+        repeat(auto-fit,minmax(180px,1fr));
+
       gap: 12px;
     }
+
+
+    /* FORM ELEMENTS */
 
     label {
       font-size: 12px;
@@ -63,165 +117,462 @@
       margin-bottom: 5px;
     }
 
-    input, select, button {
+    input,
+    select,
+    button {
+
       width: 100%;
+
       padding: 11px;
-      border-radius: 9px;
+
+      border-radius: 10px;
+
       border: 1px solid #d8b4fe;
+
       font-size: 14px;
     }
 
+    input,
+    select {
+      background: rgba(255,255,255,.96);
+      color: #261447;
+    }
+
+    input:focus,
+    select:focus {
+
+      outline: 2px solid #a78bfa;
+
+      border-color: #7c3aed;
+    }
+
+
+    /* BUTTONS */
+
     button {
+
       background: #6d28d9;
+
       color: white;
+
       border: none;
+
       font-weight: bold;
+
       cursor: pointer;
+
+      transition: .15s;
     }
 
     button:hover {
       background: #5b21b6;
     }
 
+    button:active {
+      transform: scale(.99);
+    }
+
     .secondary {
+
       background: #ede9fe;
+
       color: #5b21b6;
     }
 
-    .stats {
-      margin-top: 12px;
-      font-size: 13px;
-      color: #6b7280;
+    .secondary:hover {
+
+      background: #ddd6fe;
+
     }
 
+
+    /* CHECKBOXES */
+
+    .checkbox-area {
+
+      margin-top: 15px;
+
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 15px;
+    }
+
+    .checkbox-area label {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 6px;
+
+      font-size: 13px;
+
+      cursor: pointer;
+    }
+
+    .checkbox-area input {
+
+      width: auto;
+
+      margin: 0;
+    }
+
+
+    /* STATS */
+
+    .stats {
+
+      margin-top: 12px;
+
+      font-size: 13px;
+
+      color: #6b7280;
+
+      text-align: center;
+    }
+
+
+    /* SONG ROW */
+
     .song {
-      padding: 11px;
-      border-bottom: 1px solid #eee;
+
+      padding: 11px 4px;
+
+      border-bottom:
+        1px solid rgba(109,40,217,.10);
+    }
+
+    .song:last-child {
+      border-bottom: none;
     }
 
     .song-title {
+
       font-weight: bold;
+
+      line-height: 1.35;
     }
 
     .song-info {
+
       font-size: 12px;
+
       color: #6b7280;
+
       margin-top: 3px;
+
+      line-height: 1.4;
     }
+
+
+    /* ACT HEADER */
 
     .act {
+
       margin-top: 22px;
-      padding: 9px;
-      background: #ede9fe;
-      border-radius: 8px;
+
+      padding: 10px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(237,233,254,.96),
+          rgba(221,214,254,.96)
+        );
+
+      border-radius: 10px;
+
       font-weight: bold;
+
       text-align: center;
+
+      color: #5b21b6;
     }
+
+
+    /* ACTION BUTTONS */
 
     .actions {
+
       display: grid;
+
       grid-template-columns: 1fr 1fr;
+
       gap: 10px;
+
       margin-top: 15px;
+
+      margin-bottom: 10px;
     }
 
-    #status {
-      text-align: center;
-      padding: 30px;
+
+    /* SEARCH RESULTS */
+
+    #searchResults {
+
+      max-height: 600px;
+
+      overflow-y: auto;
+
+      margin-top: 10px;
     }
 
-    @media(max-width:600px) {
-      header h1 { font-size: 23px; }
-      .container { padding: 10px; }
-      .card { padding: 14px; }
+
+    /* MOBILE */
+
+    @media (max-width: 600px) {
+
+      body {
+
+        /*
+          Fixed backgrounds can behave oddly on iPhone Safari.
+          Scroll is smoother and more reliable.
+        */
+
+        background-attachment: scroll;
+      }
+
+      header {
+
+        padding: 20px 12px;
+      }
+
+      header h1 {
+
+        font-size: 23px;
+      }
+
+      .container {
+
+        padding: 10px;
+      }
+
+      .card {
+
+        padding: 15px;
+
+        border-radius: 15px;
+      }
+
+      .grid {
+
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .actions {
+
+        grid-template-columns: 1fr 1fr;
+      }
+
     }
+
+
+    @media (max-width: 400px) {
+
+      .grid {
+
+        grid-template-columns: 1fr;
+      }
+
+    }
+
   </style>
 </head>
 
+
 <body>
 
+
 <header>
+
   <h1>🎵 DenDen Music Generator</h1>
-  <p id="libraryCount">Loading music library...</p>
+
+  <p id="libraryCount">
+    Loading music library...
+  </p>
+
 </header>
 
+
+
 <div class="container">
+
+
+  <!-- GENERATOR -->
 
   <div class="card">
 
     <h2>🎲 Song Generator</h2>
 
+
     <div class="grid">
 
+
       <div>
+
         <label>NUMBER OF SONGS</label>
-        <input id="number" type="number" value="30" min="1" max="100">
+
+        <input
+          id="number"
+          type="number"
+          value="30"
+          min="1"
+          max="100"
+        >
+
       </div>
 
+
+
       <div>
+
         <label>CATEGORY</label>
+
         <select id="category">
-          <option value="">All Categories</option>
-          <option value="FIL">Filipino / OPM</option>
-          <option value="NON-FIL">English / International</option>
+
+          <option value="">
+            All Categories
+          </option>
+
+          <option value="FIL">
+            Filipino / OPM
+          </option>
+
+          <option value="NON-FIL">
+            English / International
+          </option>
+
         </select>
+
       </div>
 
+
+
       <div>
+
         <label>ARTIST</label>
+
         <select id="artist">
-          <option value="">All Artists</option>
+
+          <option value="">
+            All Artists
+          </option>
+
         </select>
+
       </div>
 
+
+
       <div>
+
         <label>RECOGNITION</label>
+
         <select id="tier">
-          <option value="">All Tiers</option>
+
+          <option value="">
+            All Tiers
+          </option>
+
         </select>
+
       </div>
 
+
+
       <div>
+
         <label>PERFORMANCE TAG</label>
+
         <select id="tag">
-          <option value="">All Tags</option>
+
+          <option value="">
+            All Tags
+          </option>
+
         </select>
+
       </div>
 
+
+
       <div>
+
         <label>MINIMUM SPEED</label>
+
         <select id="minSpeed"></select>
+
       </div>
+
+
 
       <div>
+
         <label>MAXIMUM SPEED</label>
+
         <select id="maxSpeed"></select>
+
       </div>
 
+
     </div>
 
-    <div style="margin-top:15px;">
+
+
+    <div class="checkbox-area">
+
       <label>
-        <input id="uniqueArtist" type="checkbox"
-        style="width:auto;margin-right:6px;">
+
+        <input
+          id="uniqueArtist"
+          type="checkbox"
+        >
+
         Avoid repeating the same artist
+
       </label>
+
 
       <label>
-        <input id="threeActs" type="checkbox" checked
-        style="width:auto;margin-right:6px;">
+
+        <input
+          id="threeActs"
+          type="checkbox"
+          checked
+        >
+
         Split lineup into 3 Acts
+
       </label>
+
     </div>
 
-    <button onclick="generate()" style="margin-top:15px;">
+
+
+    <button
+      onclick="generate()"
+      style="margin-top:15px;"
+    >
+
       🎲 GENERATE SONGS
+
     </button>
 
-    <div class="stats" id="poolCount"></div>
+
+    <div
+      class="stats"
+      id="poolCount">
+    </div>
+
 
   </div>
 
+
+
+  <!-- SEARCH -->
 
   <div class="card">
 
@@ -238,410 +589,909 @@
   </div>
 
 
+
+  <!-- LINEUP -->
+
   <div class="card">
 
     <h2>🎤 Generated Lineup</h2>
 
+
     <div class="actions">
-      <button class="secondary" onclick="generate()">↻ Regenerate</button>
-      <button class="secondary" onclick="copyList()">📋 Copy List</button>
+
+      <button
+        class="secondary"
+        onclick="generate()"
+      >
+
+        ↻ Regenerate
+
+      </button>
+
+
+      <button
+        class="secondary"
+        onclick="copyList()"
+      >
+
+        📋 Copy List
+
+      </button>
+
     </div>
+
 
     <div id="results"></div>
 
   </div>
 
+
 </div>
+
 
 
 <script>
 
+
 let songs = [];
+
 let currentLineup = [];
 
 
-/* LOAD MUSIC LIBRARY */
+
+/* =========================
+   LOAD MUSIC LIBRARY
+========================= */
+
 
 fetch("songs.json")
+
   .then(response => {
-    if (!response.ok) throw new Error("songs.json not found");
+
+    if (!response.ok) {
+
+      throw new Error(
+        "songs.json not found"
+      );
+
+    }
+
     return response.json();
+
   })
+
   .then(data => {
+
 
     songs = data;
 
-    document.getElementById("libraryCount").textContent =
-      songs.length.toLocaleString() + " songs in the DenDen Music Library";
+
+    document
+      .getElementById("libraryCount")
+      .textContent =
+
+      songs.length.toLocaleString()
+
+      + " songs in the DenDen Music Library";
+
 
     buildFilters();
+
     updatePool();
 
+
   })
+
   .catch(error => {
 
-    document.getElementById("libraryCount").textContent =
+
+    document
+      .getElementById("libraryCount")
+      .textContent =
+
       "Music library could not be loaded.";
+
 
     console.error(error);
 
+
   });
 
 
-/* BUILD FILTERS */
+
+/* =========================
+   BUILD FILTERS
+========================= */
+
 
 function buildFilters() {
 
+
   const artists =
-    [...new Set(songs.map(s => s.artist).filter(Boolean))]
-    .sort((a,b) => a.localeCompare(b));
+
+    [...new Set(
+
+      songs
+
+        .map(song => song.artist)
+
+        .filter(Boolean)
+
+    )]
+
+    .sort(
+      (a,b) =>
+        a.localeCompare(b)
+    );
+
+
 
   const tiers =
-    [...new Set(songs.map(s => s.tier).filter(Boolean))];
+
+    [...new Set(
+
+      songs
+
+        .map(song => song.tier)
+
+        .filter(Boolean)
+
+    )];
+
+
 
   const tags = new Set();
 
+
+
   songs.forEach(song => {
+
 
     if (!song.tag) return;
 
-    song.tag.split("+").forEach(t => {
-      tags.add(t.trim());
+
+    song.tag
+
+      .split("+")
+
+      .forEach(tag => {
+
+        tags.add(
+          tag.trim()
+        );
+
+      });
+
+
+  });
+
+
+
+  const artistSelect =
+    document.getElementById("artist");
+
+
+  artists.forEach(artist => {
+
+
+    const option =
+      document.createElement("option");
+
+
+    option.value =
+      artist;
+
+
+    option.textContent =
+      artist;
+
+
+    artistSelect
+      .appendChild(option);
+
+
+  });
+
+
+
+  const tierSelect =
+    document.getElementById("tier");
+
+
+  tiers.forEach(tier => {
+
+
+    const option =
+      document.createElement("option");
+
+
+    option.value =
+      tier;
+
+
+    option.textContent =
+      tier;
+
+
+    tierSelect
+      .appendChild(option);
+
+
+  });
+
+
+
+  const tagSelect =
+    document.getElementById("tag");
+
+
+  [...tags]
+
+    .sort()
+
+    .forEach(tag => {
+
+
+      const option =
+        document.createElement("option");
+
+
+      option.value =
+        tag;
+
+
+      option.textContent =
+        tag;
+
+
+      tagSelect
+        .appendChild(option);
+
+
     });
 
-  });
 
 
-  const artistSelect = document.getElementById("artist");
-
-  artists.forEach(a => {
-
-    const option = document.createElement("option");
-
-    option.value = a;
-    option.textContent = a;
-
-    artistSelect.appendChild(option);
-
-  });
+  const min =
+    document.getElementById("minSpeed");
 
 
-  const tierSelect = document.getElementById("tier");
-
-  tiers.forEach(t => {
-
-    const option = document.createElement("option");
-
-    option.value = t;
-    option.textContent = t;
-
-    tierSelect.appendChild(option);
-
-  });
+  const max =
+    document.getElementById("maxSpeed");
 
 
-  const tagSelect = document.getElementById("tag");
 
-  [...tags].sort().forEach(t => {
-
-    const option = document.createElement("option");
-
-    option.value = t;
-    option.textContent = t;
-
-    tagSelect.appendChild(option);
-
-  });
+  for (
+    let i = 0;
+    i <= 10;
+    i++
+  ) {
 
 
-  const min = document.getElementById("minSpeed");
-  const max = document.getElementById("maxSpeed");
+    min.innerHTML +=
 
-  for (let i = 0; i <= 10; i++) {
+      `<option value="${i}">
+        ${i}
+      </option>`;
 
-    min.innerHTML += `<option value="${i}">${i}</option>`;
-    max.innerHTML += `<option value="${i}">${i}</option>`;
+
+    max.innerHTML +=
+
+      `<option value="${i}">
+        ${i}
+      </option>`;
+
 
   }
 
+
+
   min.value = 0;
+
   max.value = 10;
 
 
-  document.querySelectorAll("select").forEach(el => {
-    el.addEventListener("change", updatePool);
-  });
+
+  document
+
+    .querySelectorAll("select")
+
+    .forEach(element => {
+
+
+      element.addEventListener(
+        "change",
+        updatePool
+      );
+
+
+    });
+
 
 }
 
 
-/* FILTER */
+
+/* =========================
+   FILTER SONGS
+========================= */
+
 
 function getFilteredSongs() {
 
+
   const category =
-    document.getElementById("category").value;
+    document
+      .getElementById("category")
+      .value;
+
 
   const artist =
-    document.getElementById("artist").value;
+    document
+      .getElementById("artist")
+      .value;
+
 
   const tier =
-    document.getElementById("tier").value;
+    document
+      .getElementById("tier")
+      .value;
+
 
   const tag =
-    document.getElementById("tag").value;
+    document
+      .getElementById("tag")
+      .value;
+
 
   const min =
-    Number(document.getElementById("minSpeed").value);
+    Number(
+      document
+        .getElementById("minSpeed")
+        .value
+    );
+
 
   const max =
-    Number(document.getElementById("maxSpeed").value);
+    Number(
+      document
+        .getElementById("maxSpeed")
+        .value
+    );
+
 
 
   return songs.filter(song => {
 
-    if (category && song.category !== category)
-      return false;
-
-    if (artist && song.artist !== artist)
-      return false;
-
-    if (tier && song.tier !== tier)
-      return false;
 
     if (
+      category &&
+      song.category !== category
+    )
+      return false;
+
+
+
+    if (
+      artist &&
+      song.artist !== artist
+    )
+      return false;
+
+
+
+    if (
+      tier &&
+      song.tier !== tier
+    )
+      return false;
+
+
+
+    if (
+
       tag &&
+
       !(song.tag || "")
+
         .split("+")
+
         .map(x => x.trim())
+
         .includes(tag)
+
     )
+
       return false;
 
+
+
     if (
+
       song.speed !== null &&
+
       song.speed !== undefined &&
-      (song.speed < min || song.speed > max)
+
+      (
+
+        song.speed < min ||
+
+        song.speed > max
+
+      )
+
     )
+
       return false;
+
+
 
     return true;
 
+
   });
+
 
 }
 
 
-/* POOL SIZE */
+
+/* =========================
+   UPDATE POOL
+========================= */
+
 
 function updatePool() {
 
-  const pool = getFilteredSongs();
 
-  document.getElementById("poolCount").textContent =
-    "Available pool: " +
-    pool.length.toLocaleString() +
-    " songs";
+  const pool =
+    getFilteredSongs();
+
+
+  document
+    .getElementById("poolCount")
+    .textContent =
+
+    "Available pool: "
+
+    + pool.length.toLocaleString()
+
+    + " songs";
+
 
 }
 
 
-/* SHUFFLE */
+
+/* =========================
+   SHUFFLE
+========================= */
+
 
 function shuffle(array) {
 
-  const a = [...array];
 
-  for (let i = a.length - 1; i > 0; i--) {
+  const copy =
+    [...array];
+
+
+  for (
+
+    let i =
+      copy.length - 1;
+
+    i > 0;
+
+    i--
+
+  ) {
+
 
     const j =
-      Math.floor(Math.random() * (i + 1));
 
-    [a[i], a[j]] =
-      [a[j], a[i]];
+      Math.floor(
+
+        Math.random()
+        * (i + 1)
+
+      );
+
+
+    [
+
+      copy[i],
+
+      copy[j]
+
+    ] = [
+
+      copy[j],
+
+      copy[i]
+
+    ];
+
 
   }
 
-  return a;
+
+  return copy;
+
 
 }
 
 
-/* GENERATE */
+
+/* =========================
+   GENERATE LINEUP
+========================= */
+
 
 function generate() {
 
+
   const wanted =
-    Number(document.getElementById("number").value);
+
+    Number(
+
+      document
+        .getElementById("number")
+        .value
+
+    );
+
 
   const uniqueArtist =
-    document.getElementById("uniqueArtist").checked;
+
+    document
+      .getElementById("uniqueArtist")
+      .checked;
+
+
 
   let pool =
-    shuffle(getFilteredSongs());
+
+    shuffle(
+
+      getFilteredSongs()
+
+    );
+
+
 
   let chosen = [];
 
-  let usedArtists = new Set();
+
+  let usedArtists =
+    new Set();
 
 
-  for (const song of pool) {
+
+  for (
+    const song of pool
+  ) {
+
 
     if (
+
       uniqueArtist &&
-      usedArtists.has(song.artist)
+
+      usedArtists.has(
+        song.artist
+      )
+
     )
+
       continue;
+
+
 
     chosen.push(song);
 
-    usedArtists.add(song.artist);
 
-    if (chosen.length >= wanted)
+    usedArtists.add(
+      song.artist
+    );
+
+
+
+    if (
+      chosen.length >= wanted
+    )
+
       break;
+
 
   }
 
 
-  currentLineup = chosen;
+
+  currentLineup =
+    chosen;
+
 
   displayLineup();
 
+
 }
 
 
-/* DISPLAY */
+
+/* =========================
+   DISPLAY LINEUP
+========================= */
+
 
 function displayLineup() {
 
+
   const results =
-    document.getElementById("results");
+
+    document
+      .getElementById("results");
+
 
   results.innerHTML = "";
 
-  if (!currentLineup.length) {
+
+
+  if (
+    !currentLineup.length
+  ) {
+
 
     results.innerHTML =
+
       "<p>No songs match your filters.</p>";
 
+
     return;
+
 
   }
 
 
+
   const threeActs =
-    document.getElementById("threeActs").checked;
 
-  let actSize =
-    Math.ceil(currentLineup.length / 3);
-
-
-  currentLineup.forEach((song,index) => {
-
-    if (
-      threeActs &&
-      index % actSize === 0
-    ) {
-
-      const act =
-        Math.floor(index / actSize) + 1;
-
-      results.innerHTML +=
-        `<div class="act">ACT ${act}</div>`;
-
-    }
+    document
+      .getElementById("threeActs")
+      .checked;
 
 
-    results.innerHTML += `
 
-      <div class="song">
+  const actSize =
 
-        <div class="song-title">
-          ${index + 1}. ${song.song}
-        </div>
+    Math.ceil(
 
-        <div class="song-info">
+      currentLineup.length / 3
 
-          ${song.artist || ""}
+    );
 
-          ${song.year ? " · " + song.year : ""}
 
-          ${song.speed !== null &&
-            song.speed !== undefined
-            ? " · Speed " + song.speed
-            : ""}
 
-          ${song.tier
-            ? " · " + song.tier
-            : ""}
+  currentLineup
 
-        </div>
+    .forEach(
 
-      </div>
+      (song,index) => {
 
-    `;
 
-  });
+        if (
+
+          threeActs &&
+
+          index % actSize === 0
+
+        ) {
+
+
+          const act =
+
+            Math.floor(
+
+              index / actSize
+
+            ) + 1;
+
+
+          results.innerHTML +=
+
+            `<div class="act">
+              ACT ${act}
+            </div>`;
+
+
+        }
+
+
+
+        results.innerHTML += `
+
+          <div class="song">
+
+            <div class="song-title">
+
+              ${index + 1}.
+              ${song.song}
+
+            </div>
+
+
+            <div class="song-info">
+
+              ${song.artist || ""}
+
+              ${
+                song.year
+                  ? " · " + song.year
+                  : ""
+              }
+
+              ${
+                song.speed !== null &&
+                song.speed !== undefined
+
+                  ? " · Speed "
+                    + song.speed
+
+                  : ""
+              }
+
+              ${
+                song.tier
+
+                  ? " · "
+                    + song.tier
+
+                  : ""
+              }
+
+              ${
+                song.tag
+
+                  ? " · "
+                    + song.tag
+
+                  : ""
+              }
+
+            </div>
+
+          </div>
+
+        `;
+
+
+      }
+
+    );
+
 
 }
 
 
-/* SEARCH */
+
+/* =========================
+   SEARCH LIBRARY
+========================= */
+
 
 function searchLibrary() {
 
-  const q =
-    document.getElementById("search")
-    .value
-    .toLowerCase()
-    .trim();
+
+  const query =
+
+    document
+      .getElementById("search")
+      .value
+      .toLowerCase()
+      .trim();
+
+
 
   const output =
-    document.getElementById("searchResults");
+
+    document
+      .getElementById("searchResults");
+
 
   output.innerHTML = "";
 
-  if (!q)
+
+
+  if (!query)
     return;
 
 
+
   const matches =
-    songs.filter(song =>
 
-      (song.song || "")
-      .toLowerCase()
-      .includes(q)
+    songs
 
-      ||
+      .filter(song => {
 
-      (song.artist || "")
-      .toLowerCase()
-      .includes(q)
 
-    ).slice(0,100);
+        const songName =
+
+          (song.song || "")
+            .toLowerCase();
+
+
+        const artistName =
+
+          (song.artist || "")
+            .toLowerCase();
+
+
+        return (
+
+          songName.includes(query)
+
+          ||
+
+          artistName.includes(query)
+
+        );
+
+
+      })
+
+      .slice(0,100);
+
 
 
   matches.forEach(song => {
+
 
     output.innerHTML += `
 
       <div class="song">
 
         <div class="song-title">
+
           ${song.song}
+
         </div>
+
 
         <div class="song-info">
 
           ${song.artist || ""}
 
-          ${song.year
-            ? " · " + song.year
-            : ""}
+          ${
+            song.year
+              ? " · " + song.year
+              : ""
+          }
 
-          ${song.tag
-            ? " · " + song.tag
-            : ""}
+          ${
+            song.speed !== null &&
+            song.speed !== undefined
+
+              ? " · Speed "
+                + song.speed
+
+              : ""
+          }
+
+          ${
+            song.tier
+
+              ? " · "
+                + song.tier
+
+              : ""
+          }
+
+          ${
+            song.tag
+
+              ? " · "
+                + song.tag
+
+              : ""
+          }
 
         </div>
 
@@ -649,49 +1499,114 @@ function searchLibrary() {
 
     `;
 
+
   });
+
 
 }
 
 
-/* COPY */
+
+/* =========================
+   COPY LINEUP
+========================= */
+
 
 function copyList() {
 
-  if (!currentLineup.length)
+
+  if (
+    !currentLineup.length
+  )
+
     return;
 
 
+
   const text =
+
     currentLineup
-    .map(
-      (song,index) =>
-      `${index + 1}. ${song.song} — ${song.artist}`
-    )
-    .join("\n");
+
+      .map(
+
+        (song,index) =>
+
+          `${index + 1}. ${song.song} — ${song.artist}`
+
+      )
+
+      .join("\n");
 
 
-  navigator.clipboard.writeText(text);
 
-  alert("Lineup copied!");
+  navigator
+    .clipboard
+    .writeText(text)
+
+    .then(() => {
+
+      alert(
+        "Lineup copied!"
+      );
+
+    })
+
+    .catch(() => {
+
+      alert(
+        "Unable to copy lineup."
+      );
+
+    });
+
 
 }
 
 
-/* PWA */
 
-if ("serviceWorker" in navigator) {
+/* =========================
+   SERVICE WORKER
+========================= */
 
-  window.addEventListener("load", () => {
 
-    navigator.serviceWorker
-      .register("sw.js");
+if (
+  "serviceWorker"
+  in navigator
+) {
 
-  });
+
+  window.addEventListener(
+
+    "load",
+
+    () => {
+
+
+      navigator
+        .serviceWorker
+        .register("sw.js")
+
+        .catch(error => {
+
+          console.log(
+            "Service worker:",
+            error
+          );
+
+        });
+
+
+    }
+
+  );
+
 
 }
+
 
 </script>
 
+
 </body>
+
 </html>
